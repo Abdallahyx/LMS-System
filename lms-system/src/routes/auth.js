@@ -3,7 +3,7 @@ const router = express.Router();
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-
+const secretKey = 'af53e07f90f1923b9b1e2073b0a6f5c15c1e18c76e795a4a8caac1d1e0b237c7';
 /**
  * @swagger
  * tags:
@@ -46,7 +46,7 @@ router.post('/login', async (req, res) => {
     const user = await User.findOne({ email });
   
     if (user && bcrypt.compareSync(password, user.password)) {
-      const token = jwt.sign({ userId: user._id }, 'secret_key', { expiresIn: '1h' });
+      const token = jwt.sign({ userId: user._id }, secretKey, { expiresIn: '1h' });
       res.json({ token });
     } else {
       res.status(401).json({ message: 'Invalid credentials' });

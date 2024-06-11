@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Course = require('../models/Course');  // Import Course model
 const User = require('../models/User');  // Import User model
+const authMiddleware = require('../middleware/AuthMiddleWare');  // Import auth middleware
 
   /**
    * @swagger
@@ -121,7 +122,7 @@ const User = require('../models/User');  // Import User model
    *       201:
    *         description: Review added successfully
    */
-  router.post('/:id/review', async (req, res) => {
+  router.post('/:id/review', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const { comment, rating } = req.body;
   
@@ -194,7 +195,7 @@ const User = require('../models/User');  // Import User model
    *       200:
    *         description: Course liked successfully
    */
-  router.post('/:id/like', async (req, res) => {
+  router.post('/:id/like', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
   
@@ -222,7 +223,7 @@ const User = require('../models/User');  // Import User model
    *       200:
    *         description: Course unliked successfully
    */
-  router.post('/:id/unlike', async (req, res) => {
+  router.post('/:id/unlike', authMiddleware, async (req, res) => {
     const { id } = req.params;
     const userId = req.user.id;
   
@@ -258,7 +259,7 @@ const User = require('../models/User');  // Import User model
    *                   rating:
    *                     type: number
    */
-  router.get('/me/favorites', async (req, res) => {
+  router.get('/me/favorites', authMiddleware, async (req, res) => {
     const userId = req.user.id;
     const user = await User.findById(userId).populate('favorites');
   
