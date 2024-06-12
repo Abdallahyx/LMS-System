@@ -1,6 +1,6 @@
 [build]
   functions = "src"
-  command = "CI = npm run build"
+  command = "npm run build"
 
 [dev]
   command = "npm start"
