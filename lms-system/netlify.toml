@@ -1,6 +1,6 @@
 [build]
   functions = "functions-build"  # Make sure this matches the output directory of your build process
-  command = "CI= npm run build"
+  command = "npm run build"
   publish = "public"  # Ensure this is the correct directory for your static files, if any
 
 [dev]
