@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "netlify deploy --prod",
     "start": "nodemon src/index.js"
   },
   "author": "",
@@ -19,6 +20,9 @@
     "express-admin": "^2.0.0",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.4.1",
+    "netlify-cli": "^17.26.2",
+    "netlify-lambda": "^2.0.16",
+    "serverless-http": "^3.2.0",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1"
   },

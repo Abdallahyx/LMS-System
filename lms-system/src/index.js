@@ -55,10 +55,11 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const serverless = require("serverless-http");
 
 // Swagger setup
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
-
+app.use("/.netlify/functions/app", router);
 // Mount main router
 app.use('/api', routes);
 
@@ -115,3 +116,4 @@ app.get('/', (req, res) => {
     console.error('Error setting up AdminJS:', err);
   }
 })();
+module.exports.handler = serverless(app);
