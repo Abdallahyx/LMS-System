@@ -1,7 +1,6 @@
 [build]
-  functions = "src"  # Make sure this matches the output directory of your build process
+  functions = "src"
   command = "npm run build"
-  publish = "public"  # Ensure this is the correct directory for your static files, if any
 
 [dev]
   command = "npm start"
