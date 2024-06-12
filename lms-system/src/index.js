@@ -2,16 +2,13 @@ const express = require('express');
 const mongoose = require('mongoose');
 const swaggerJsDoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-const serverless = require('serverless-http');
 const app = express();
+const port = 3000;
 const routes = require('./routes');  // Import main router
 const Course = require('./models/Course');  // Import Course model
-const router = express.Router();
-
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/lms-system', {
-  useNewUrlParser: true,
-  useUnifiedTopology: true
+
 }).then(() => console.log('MongoDB connected'))
   .catch(err => console.log(err));
 
@@ -60,7 +57,7 @@ const swaggerOptions = {
  *      '200':
  *        description: A successful response
  */
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('Server is running');
 });
 
@@ -69,11 +66,14 @@ const swaggerDocs = swaggerJsDoc(swaggerOptions);
 // Middleware setup
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
+const serverless = require("serverless-http");
 
 // Swagger setup
-router.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
-router.use('/api', routes);
+app.use('/api', routes);
+
+
 
 // AdminJS setup with dynamic import
 (async () => {
@@ -104,16 +104,14 @@ router.use('/api', routes);
     });
 
     const adminRouter = buildRouter(adminJS);
-    router.use(adminJS.options.rootPath, adminRouter);
+    app.use(adminJS.options.rootPath, adminRouter);
+
+    // Start the server
+    app.listen(port, () => {
+      console.log(`Server running at http://localhost:${port}`);
+    });
   } catch (err) {
     console.error('Error setting up AdminJS:', err);
   }
 })();
 
-app.use("/.netlify/functions/", router);
-
-const handler = serverless(app);
-module.exports.handler = async (event, context) => {
-  const result = await handler(event, context);
-  return result;
-};
