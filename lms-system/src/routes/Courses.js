@@ -228,7 +228,7 @@ const authMiddleware = require('../middleware/AuthMiddleWare');  // Import auth 
     const userId = req.user.id;
   
     const user = await User.findById(userId);
-    user.favorites = user.favorites.filter(courseId => courseId !== id);
+    user.favorites = user.favorites.filter(courseId => courseId.toString() !== id);
     await user.save();
   
     res.json({ message: 'Course unliked' });
