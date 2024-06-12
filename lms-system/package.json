@@ -5,7 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "netlify-lambda serve src",
-    "build": "netlify-lambda build src --output functions-build"
+    "build": "netlify-lambda build src"
   },
   "author": "",
   "license": "ISC",
